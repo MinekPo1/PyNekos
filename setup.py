@@ -7,25 +7,22 @@ long_description = """
 PyNekos: a Python client for the Nekos.moe API
 ==============================================
 
-``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe API`_
+``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe
+API <https://docs.nekos.moe/>`__.
 
-.. _Nekos.moe API: https://docs.nekos.moe/
-
-The full documentation for ``PyNekos`` can be found `here`_
-
-.. _here: https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md
+The full documentation for ``PyNekos`` can be found
+`here <https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md>`__.
 
 Setup
 -----
 
 Some functionalities of the API needs authentication, used for post
 images and regenerate and get token. This way, if you pretend to use
-this functionalities, you’ll need to sign up for a (free) account that
+this functionalities, you'll need to sign up for a (free) account that
 authorizes access to the Nekos.moe API. If you pretend to use only the
 simple functionalities (like get images informations, user informations,
-search for images, etc), you don’t need to pass nothing to the Neko
-class
-
+search for images, etc), you don't need to pass nothing to the Neko
+class.
 
 Installation
 ------------
@@ -36,7 +33,7 @@ Use ``pip`` to install the package from PyPI:
 
 .. code:: bash
 
-   pip install PyNekos
+    pip install PyNekos
 
 Usage
 -----
@@ -45,54 +42,46 @@ Import the package and initiate the Neko class:
 
 .. code:: python
 
-   from PyNekos.nekosapi import Neko
-   nyan = Neko()
+    from PyNekos.nekosapi import Neko
+    nyan = Neko()
 
-If you pretend to use more advanced functionalities of the API, you’ll
-need the token. To get the token, you’ll need your credentials:
+If you pretend to use more advanced functionalities of the API, you'll
+need the token. To get the token, you'll need your credentials:
 
 .. code:: python
 
-   from PyNekos.nekosapi import Neko
-   nyan = Neko(username='myuser', password='iwillnotshowyouthis')
-   token = nyan.get_token()
-   print(token)
+    from PyNekos.nekosapi import Neko
+    nyan = Neko(username='myuser', password='iwillnotshowyouthis')
+    token = nyan.get_token()
+    print(token)
 
 After that, instance the object again with all informations:
 
 .. code:: python
 
-   from PyNekos.nekosapi import Neko
-   nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
+    from PyNekos.nekosapi import Neko
+    nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
 
 Examples
 --------
 
-You can see the usage of all endpoints of the API in the `example files`_
-
-.. _example files: https://github.com/ChoiYun/PyNekos/tree/main/examples
+You can see the usage of all endpoints of the API in the `example
+files <https://github.com/ChoiYun/PyNekos/tree/main/examples>`__.
 
 Contributing
 ------------
 
 Please contribute! If you want to fix a bug, suggest improvements, or
-add new features to the project, just `open an issue`_ or send a pull
+add new features to the project, just `open an
+issue <https://github.com/ChoiYun/PyNekos/issues>`__ or send a pull
 request.
 
-.. _open an issue: https://github.com/ChoiYun/PyNekos/issues
-
-Official Repository
-------------
-
-You can take a look in the official repository `in github`_
-
-.. _in github: https://github.com/ChoiYun/PyNekos
 """
 
 setup(
   name = 'PyNekos',
   packages = ['PyNekos'],
-  version = '1.1',
+  version = '1.02',
   license='MIT',
   description = 'Python client for the https://nekos.moe/ API',
   long_description=long_description,
