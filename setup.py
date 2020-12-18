@@ -90,7 +90,7 @@ setup(
   license='MIT',
   description = 'Python client for the https://nekos.moe/ API',
   long_description=long_description,
-  long_description_content_type='text/markdown',
+  # long_description_content_type='text/markdown',
   author = 'Pedro Huang',
   author_email = 'justhuangpedro@gmail.com',
   url = 'https://github.com/ChoiYun/PyNekos',
