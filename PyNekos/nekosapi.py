@@ -109,8 +109,8 @@ class Neko:
         :param artist: `str` - optional (Filter results of a specific artist)
         :param tags: `list` - optional (Filter results by tags)
         :param sort: `str` - optional - default `newest` - (newest, likes, oldest, relevance)
-        :param posted_before: `str` - optional (Separated by .  or : or -) Ex: 02.09.2020 DD/MM/YYYY
-        :param posted_after: `str` - optional (Separated by .  or : or -) Ex: 02.09.2020 DD/MM/YYYY
+        :param posted_before: `str` - optional (Separated by .  or : or -) Ex: 2020.09.02 YYYY/MM/DD
+        :param posted_after: `str` - optional (Separated by .  or : or -) Ex: 2020.09.02 YYYY/MM/DD
         :param skip: `int` - optional - default `0` (Number of images to skip)
         :param limit: `int` - optional - default `20` - max `50` (Ammount of images)
         :return: a json with informations about the images that match the filters above
