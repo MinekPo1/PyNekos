@@ -14,7 +14,7 @@ setup(
   author = 'Pedro Huang',
   author_email = 'justhuangpedro@gmail.com',
   url = 'https://github.com/ChoiYun/PyNekos',
-  download_url = '#',
+  download_url = 'https://github.com/ChoiYun/PyNekos/archive/v0.1.tar.gz',
   keywords = ['Nekos.moe', 'Neko', 'Nekos API'],
   install_requires=[            
           'requests',
