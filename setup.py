@@ -5,13 +5,15 @@ from distutils.core import setup
 
 long_description = """
 PyNekos: a Python client for the Nekos.moe API
-----------------------------------------------
+==============================================
 
-``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe
-API <https://docs.nekos.moe/>`__.
+``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe API`_
 
-The full documentation for ``PyNekos`` can be found
-`here <https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md>`__.
+.. _Nekos.moe API: https://docs.nekos.moe/
+
+The full documentation for ``PyNekos`` can be found `here`_
+
+.. _here: https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md
 
 Setup
 -----
@@ -22,8 +24,8 @@ this functionalities, you’ll need to sign up for a (free) account that
 authorizes access to the Nekos.moe API. If you pretend to use only the
 simple functionalities (like get images informations, user informations,
 search for images, etc), you don’t need to pass nothing to the Neko
-class, see `usage <https://github.com/ChoiYun/PyNekos#usage>`__ section
-below.
+class
+
 
 Installation
 ------------
@@ -66,21 +68,25 @@ After that, instance the object again with all informations:
 Examples
 --------
 
-You can see the usage of all endpoints of the API in the `example
-files <https://github.com/ChoiYun/PyNekos/tree/main/examples>`__.
+You can see the usage of all endpoints of the API in the `example files`_
+
+.. _example files: https://github.com/ChoiYun/PyNekos/tree/main/examples
 
 Contributing
 ------------
 
 Please contribute! If you want to fix a bug, suggest improvements, or
-add new features to the project, just `open an
-issue <https://github.com/ChoiYun/PyNekos/issues>`__ or send a pull
+add new features to the project, just `open an issue`_ or send a pull
 request.
+
+.. _open an issue: https://github.com/ChoiYun/PyNekos/issues
 
 Official Repository
 ------------
 
-You can take a look in the official repository `here <https://github.com/ChoiYun/PyNekos>`__
+You can take a look in the official repository `in github`_
+
+.. _in github: https://github.com/ChoiYun/PyNekos
 """
 
 setup(
