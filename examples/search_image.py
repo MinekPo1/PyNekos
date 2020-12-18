@@ -8,6 +8,13 @@ nyan = Neko()
 search_json = nyan.search_image(nsfw=False, uploader='brussell', artist='jun', tags=["1 girl", "animal ears"], sort='likes')
 print(search_json)
 
+# Search for images posted after 30/11/2019
+search_json2 = nyan.search_image(nsfw=False, posted_after="2019.11.30")
+print(search_json2)
+
+# Search for images posted before 30/11/2020
+search_json3 = nyan.search_image(nsfw=False, posted_before="2020.11.30")
+print(search_json3)
 
 """
 Return:
