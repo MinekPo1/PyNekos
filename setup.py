@@ -4,61 +4,89 @@ from distutils.core import setup
 #     long_description = f.read()
 
 long_description = """
-# PyNekos: a Python client for the Nekos.moe API 
-`PyNekos` provides a simple and pythonic way to use the [Nekos.moe API](https://docs.nekos.moe/).
+PyNekos: a Python client for the Nekos.moe API
+==============================================
 
-The full documentation for `PyNekos` can be found [here](https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md).
+``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe
+API <https://docs.nekos.moe/>`__.
 
-## Setup
-Some functionalities of the API needs authentication, used for post images and regenerate and get token. This way, if you pretend to use this functionalities, you'll need to sign up for a (free) account that authorizes access to the Nekos.moe API. If you pretend to use only the simple functionalities (like get images informations, user informations, search for images, etc), you don't need to pass nothing to the Neko class, see [usage](https://github.com/ChoiYun/PyNekos#usage) section below.
+The full documentation for ``PyNekos`` can be found
+`here <https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md>`__.
 
+Setup
+-----
 
-## Installation
-`PyNekos` requires Python 3.
+Some functionalities of the API needs authentication, used for post
+images and regenerate and get token. This way, if you pretend to use
+this functionalities, you’ll need to sign up for a (free) account that
+authorizes access to the Nekos.moe API. If you pretend to use only the
+simple functionalities (like get images informations, user informations,
+search for images, etc), you don’t need to pass nothing to the Neko
+class, see `usage <https://github.com/ChoiYun/PyNekos#usage>`__ section
+below.
 
-Use `pip` to install the package from PyPI:
+Installation
+------------
 
-```bash
-pip install PyNekos
-```
+``PyNekos`` requires Python 3.
 
+Use ``pip`` to install the package from PyPI:
 
-## Usage
+.. code:: bash
+
+   pip install PyNekos
+
+Usage
+-----
+
 Import the package and initiate the Neko class:
 
-```python
-from PyNekos.nekosapi import Neko
-nyan = Neko()
-```
+.. code:: python
 
-If you pretend to use more advanced functionalities of the API, you'll need the token. To get the token, you'll need your credentials: 
+   from PyNekos.nekosapi import Neko
+   nyan = Neko()
 
-```python
-from PyNekos.nekosapi import Neko
-nyan = Neko(username='myuser', password='iwillnotshowyouthis')
-token = nyan.get_token()
-print(token)
-```
+If you pretend to use more advanced functionalities of the API, you’ll
+need the token. To get the token, you’ll need your credentials:
+
+.. code:: python
+
+   from PyNekos.nekosapi import Neko
+   nyan = Neko(username='myuser', password='iwillnotshowyouthis')
+   token = nyan.get_token()
+   print(token)
 
 After that, instance the object again with all informations:
 
-```python
-from PyNekos.nekosapi import Neko
-nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
-```
+.. code:: python
 
-## Examples
-You can see the usage of all endpoints of the API in the [example files](https://github.com/ChoiYun/PyNekos/tree/main/examples).
+   from PyNekos.nekosapi import Neko
+   nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
 
+Examples
+--------
 
-## Contributing
-Please contribute! If you want to fix a bug, suggest improvements, or add new features to the project, just [open an issue](https://github.com/ChoiYun/PyNekos/issues) or send a pull request.
+You can see the usage of all endpoints of the API in the `example
+files <https://github.com/ChoiYun/PyNekos/tree/main/examples>`__.
+
+Contributing
+------------
+
+Please contribute! If you want to fix a bug, suggest improvements, or
+add new features to the project, just `open an
+issue <https://github.com/ChoiYun/PyNekos/issues>`__ or send a pull
+request.
+
+Official Repository
+------------
+
+You can take a look in the official repository `here <https://github.com/ChoiYun/PyNekos>`__
 """
 
 setup(
   name = 'PyNekos',
   packages = ['PyNekos'],
-  version = '1',
+  version = '1.1',
   license='MIT',
   description = 'Python client for the https://nekos.moe/ API',
   long_description=long_description,
@@ -66,7 +94,7 @@ setup(
   author = 'Pedro Huang',
   author_email = 'justhuangpedro@gmail.com',
   url = 'https://github.com/ChoiYun/PyNekos',
-  download_url = 'https://github.com/ChoiYun/PyNekos/archive/v1.tar.gz',
+  download_url = 'https://github.com/ChoiYun/PyNekos/archive/v1.1.tar.gz',
   keywords = ['Nekos.moe', 'Neko', 'Nekos API'],
   install_requires=[            
           'requests',
