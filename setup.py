@@ -5,7 +5,7 @@ from distutils.core import setup
 
 long_description = """
 PyNekos: a Python client for the Nekos.moe API
-==============================================
+----------------------------------------------
 
 ``PyNekos`` provides a simple and pythonic way to use the `Nekos.moe
 API <https://docs.nekos.moe/>`__.
