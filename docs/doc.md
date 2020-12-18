@@ -80,7 +80,7 @@ Using the **search_image(image_id,  nsfw,  uploader,  artist,  tags,  sort, post
 
 - The **sort** parameter is type `string` and is the method to sort. Avaible: *newest, likes, oldest, relevance*. Default *newest*  - Optional.
 
-- The **posted_before** and **posted_after** parameters are type `string` and contain the date separated by **-** or **.** or **:** Default *None*  - Optional.
+- The **posted_before** and **posted_after** parameters are type `string` and contain the date separated by **-** or **.** or **:** Default *None* - Optional - Ex: 2020.09.02 YYYY/MM/DD
 
 - The **skip** parameter is type `int` and is the amount of posts to skip. Default *0*  - Optional.
 
