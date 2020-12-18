@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get the link of the image thumbnail using a ID.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 thumb_link = nyan.get_thumbnail('Sy9sHFa8X')
 print(thumb_link)
 

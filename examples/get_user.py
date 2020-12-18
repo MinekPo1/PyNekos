@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get a json with informations of a user of the given ID.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 user = nyan.get_user('WwK11x1jv')
 print(user)
 

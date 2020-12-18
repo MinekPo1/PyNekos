@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get a json with informations using the search to filter users.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 users = nyan.search_user(limit=2)
 print(users)
 

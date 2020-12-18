@@ -2,9 +2,9 @@
 File that exemplify the use of the client to post a image to the Nekos.moe website.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko(token='316c47b67d554e6dc575cb58b997e51a')
+nyan = Neko(token='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 # Danbooru post
 danbooru = nyan.upload_image(image='2613483', upload_type='danbooru', nsfw=False)

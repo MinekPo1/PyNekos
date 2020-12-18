@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get a json with informations using the search to filter images.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 search_json = nyan.search_image(nsfw=False, uploader='brussell', artist='jun', tags=["1 girl", "animal ears"], sort='likes')
 print(search_json)
 

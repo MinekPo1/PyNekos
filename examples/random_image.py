@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get a json with informations about random images.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 sfw_images_json = nyan.random_image(nsfw=False, count=2)
 nsfw_images_json = nyan.random_image(nsfw=True, count=2)
 print(sfw_images_json)

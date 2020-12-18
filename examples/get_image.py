@@ -2,9 +2,9 @@
 File that exemplify the use of the client to get a json with informations about a ID of a image.
 """
 
-from PyNekos import nekosapi
+from PyNekos.nekosapi import Neko
 
-nyan = nekosapi.Neko()
+nyan = Neko()
 image_json = nyan.get_image('Sy9sHFa8X')
 print(image_json)
 
