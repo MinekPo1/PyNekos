@@ -1,0 +1,19 @@
+"""
+File that exemplify the use of the client to get a json with informations about random images.
+"""
+
+from PyNekos import nekosapi
+
+nyan = nekosapi.Neko()
+sfw_images_json = nyan.random_image(nsfw=False, count=2)
+nsfw_images_json = nyan.random_image(nsfw=True, count=2)
+print(sfw_images_json)
+print(nsfw_images_json)
+
+
+"""
+Return:
+{'images': [{'nsfw': False, 'tags': ['1 girl', 'animal ears', 'apron', 'bangs', 'black hair', 'cat ears', 'cat tail', 'eyebrows visible through hair', 'frilled apron', 'frills', 'grey eyes', 'hair ornament', 'hairclip', 'leaning forward', 'long hair', 'maid', 'original', 'paw pose', 'puffy short sleeves', 'puffy sleeves', 'short sleeves', 'sidelocks', 'solo', 'tail'], 'likes': 3, 'favorites': 1, 'id': 'SyUxxe7nM', 'originalHash': '8c131b8b0f31696be483d7cd315c4d5c', 'uploader': {'id': 'BkCBy21se', 'username': 'brussell'}, 'approver': {'id': 'BkCBy21se', 'username': 'brussell'}, 'artist': 'mauve', 'comments': [], 'createdAt': '2018-04-17T03:54:22.088Z', 'url': 'https://nekos.moe/image/SyUxxe7nM', 'thumbnail': 'https://nekos.moe/thumbnail/SyUxxe7nM'}, {'nsfw': False, 'tags': ['1 girl', ':o', 'alternate hair length', 'alternate hairstyle', 'animal ears', 'artist name', 'blue eyes', 'blue hair', 'breasts', 'cat ears', 'cleavage', 'detached sleeves', 'hair ornament', 'hair over one eye', 'long hair', 'maid', 'medium breasts', 'signature', 'solo', 'x hair ornament', 're:zero kara hajimeru isekai seikatsu', 'muki (catstudioinc)', 'rem (re:zero)'], 'likes': 2, 'favorites': 1, 'id': 'Bk509yjoz', 'originalHash': 'dc049217307fff9f031e9917503407e2', 'uploader': {'id': 'BkCBy21se', 'username': 'brussell'}, 'approver': {'id': 'BkCBy21se', 'username': 'brussell'}, 'artist': 'catstudioinc (punepuni)', 'comments': [], 'createdAt': '2018-04-11T01:54:26.348Z'}]}
+
+{'images': [{'nsfw': True, 'tags': ['1 girl', 'animal ears', 'animal print', 'artist name', 'cat ears', 'cat print', 'cat tail', 'from behind', 'hoshizora rin', 'kemonomimi mode', 'looking back', 'love live!', 'love live! school idol project', 'miniskirt', 'notice lines', 'orange hair', 'panties', 'paw pose', 'plaid', 'plaid skirt', 'pleated skirt', 'print panties', 'school uniform', 'shirt', 'short hair', 'short sleeves', 'simple background', 'skirt', 'skirt up', 'smile', 'solo', 'tail', 'underwear', 'white background', 'white shirt', 'yellow eyes'], 'likes': 3, 'favorites': 1, 'id': 'HJaEW0M3G', 'originalHash': '2b48662cfc0e3853b6925f2782afaec8', 'uploader': {'id': 'BkCBy21se', 'username': 'brussell'}, 'approver': {'id': 'BkCBy21se', 'username': 'brussell'}, 'artist': 'kino-maru inu', 'comments': [], 'createdAt': '2018-04-17T01:43:16.691Z', 'url': 'https://nekos.moe/image/HJaEW0M3G', 'thumbnail': 'https://nekos.moe/thumbnail/HJaEW0M3G'}, {'nsfw': True, 'tags': [':d', '1 girl', 'animal ears', 'aqua eyes', 'ass', 'bangs', 'black legwear', 'black panties', 'blue dress', 'blush', 'braid', 'brown hair', 'cat ears', 'cat girl', 'cat tail', 'dress', 'dress lift', 'eyebrows', 'eyebrows visible through hair', 'fang', 'flag', 'food', 'from behind', 'garter belt', 'headdress', 'heart', 'inconvenient tail', 'long hair', 'long sleeves', 'looking at viewer', 'looking back', 'maid', 'maid headdress', 'open mouth', 'original', 'pancake', 'panties', 'shiny', 'shiny hair', 'shiny skin', 'signature', 'smile', 'solo', 'spoken heart', 'tail', 'twintails', 'underwear'], 'likes': 2, 'favorites': 1, 'id': 'SkAVdjbTG', 'originalHash': 'e3abdb7453012097ac0dbb475ea66c7c', 'uploader': {'id': 'BkCBy21se', 'username': 'brussell'}, 'approver': {'id': 'BkCBy21se', 'username': 'brussell'}, 'artist': 'fujikura ryuune', 'comments': [], 'createdAt': '2018-04-28T07:52:21.789Z'}]}
+"""
