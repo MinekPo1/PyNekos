@@ -1,12 +1,10 @@
-# PyNekos: a Python client for the Nekos.moe API
- Python client for the https://nekos.moe/ API
- 
+# PyNekos: a Python client for the Nekos.moe API 
 `PyNekos` provides a simple and pythonic way to use the [Nekos.moe API](https://docs.nekos.moe/).
 
 The full documentation for `PyNekos` can be found [here](https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md).
 
 ## Setup
-Some functionalities of the API needs authentication, used for post images and regenerate and get token. This way, if you pretend to use this functionalities, you'll need to sign up for a (free) account that authorizes access to the Nekos.moe API. If you pretend to use only the simple functionalities (like get images informations, user informations, search for images, etc), you don't need to pass nothing to the Neko class, see [usage](https://github.com/ChoiYun/PyNekos/blob/main/README.md#usage) section below.
+Some functionalities of the API needs authentication, used for post images and regenerate and get token. This way, if you pretend to use this functionalities, you'll need to sign up for a (free) account that authorizes access to the Nekos.moe API. If you pretend to use only the simple functionalities (like get images informations, user informations, search for images, etc), you don't need to pass nothing to the Neko class, see [usage](https://github.com/ChoiYun/PyNekos#usage) section below.
 
 
 ## Installation
