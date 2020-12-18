@@ -4,6 +4,36 @@ import os
 from bs4 import BeautifulSoup
 
 
+class NekoException(Exception):
+    """ Base exception class for nekosapi.py. """
+    pass
+
+
+class CredentialsError(NekoException):
+    """ Credentials error. Failed to login. """
+    pass
+
+
+class TokenError(NekoException):
+    """ Token error. Invalid or don't passed token. """
+    pass
+
+
+class ImageError(NekoException):
+    """ Image error. The image doesn't exist. """
+    pass
+
+
+class TypeError(NekoException):
+    """ Type error. The type doesn't exist. """
+    pass
+
+
+class UserError(NekoException):
+    """ User error. The user doesn't exist. """
+    pass
+
+
 class Neko:
     """
     User-level interface with the Nekos.moe API.
@@ -41,10 +71,10 @@ class Neko:
             r = requests.post(f'{self.URL_BASE_API}/auth', data=json.dumps(payload), headers=headers)
             json_tk = json.loads(r.text)
             if r.status_code == 401:
-                raise Exception('Incorrect username or password.')
+                raise CredentialsError('Incorrect username or password.')
             return json_tk
         else:
-            raise Exception('No credentials providen.')
+            raise CredentialsError('No credentials providen.')
 
     def regen_token(self):
         """
@@ -56,13 +86,13 @@ class Neko:
             headers = {"Authorization": f"{self.token}"}
             r = requests.post(f'{self.URL_BASE_API}/auth/regen', headers=headers)
             if r.status_code == 401:
-                raise Exception('Invalid token.')
+                raise TokenError('Invalid token.')
             print('Token regenerated!')
 
             if self.username is not None and self.password is not None:
                 return self.get_token()
         else:
-            raise Exception('No token provided.')
+            raise TokenError('No token provided.')
 
     def get_image(self, image_id):
         """
@@ -72,7 +102,7 @@ class Neko:
         """
         r = requests.get(f'{self.URL_BASE_API}/images/{image_id}')  # Making the request
         if r.status_code == 404:
-            raise Exception('Image not found')
+            raise ImageError('Image not found')
         json_img = json.loads(r.text)  # Creating the json
         json_img['image']['url'] = f'https://nekos.moe/image/{image_id}'  # Implementing the image url
         json_img['image']['thumbnail'] = f'https://nekos.moe/thumbnail/{image_id}'  # Implementing the thumbnail url
@@ -170,7 +200,7 @@ class Neko:
         files = {"image": (filename, open(filepath, 'rb'), 'image/jpg', {'Expires': '0'})}
         r = requests.post(endpoint, data=data, headers=headers, files=files)
         if r.status_code == 401:
-            raise Exception('Invalid token.')
+            raise TokenError('Invalid token.')
         json_img_post = json.loads(r.text)
         return json_img_post
 
@@ -235,9 +265,9 @@ class Neko:
                 os.remove('image.jpg')
                 return a
             else:
-                raise Exception('Type unrecognized')
+                raise TypeError('Type unrecognized.')
         else:
-            raise Exception('No token provided.')
+            raise TokenError('No token provided.')
 
     def get_user(self, user_id):
         """
@@ -247,7 +277,7 @@ class Neko:
         """
         r = requests.get(f'{self.URL_BASE_API}/user/{user_id}')
         if r.status_code == 404:
-            raise Exception('No user with that id.')
+            raise UserError('No user with that id.')
         json_user = json.loads(r.content)
         return json_user
 
