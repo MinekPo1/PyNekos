@@ -24,8 +24,18 @@ class ImageError(NekoException):
     pass
 
 
-class TypeError(NekoException):
+class TypoError(NekoException):
     """ Type error. The type doesn't exist. """
+    pass
+
+
+class MissingParameters(NekoException):
+    """ Missing parameters error. Required parameters don't given. """
+    pass
+
+
+class InvalidValue(NekoException):
+    """ Invalid value error. The value given is invalid. """
     pass
 
 
@@ -89,7 +99,7 @@ class Neko:
                 raise TokenError('Invalid token.')
             print('Token regenerated!')
 
-            if self.username is not None and self.password is not None:
+            if self.username and self.password:
                 return self.get_token()
         else:
             raise TokenError('No token provided.')
@@ -108,62 +118,79 @@ class Neko:
         json_img['image']['thumbnail'] = f'https://nekos.moe/thumbnail/{image_id}'  # Implementing the thumbnail url
         return json_img
 
-    def random_image(self, nsfw=False, count=1):
+    def random_image(self, **kwargs):
         """
         Function that returns a json with information about random images
-        :param nsfw: `bool` - optinal (True/False - used to filter the result) - Default False
-        :param count: `int` - optional - Default 1 (1-100 - amount of images)
         :return: a json with information about the random images
         """
 
-        if nsfw is True:
-            new_nsfw = 'true'
+        nsfw = kwargs.get('nsfw')
+        count = kwargs.get('count')
+
+        if count:
+            if count < 1 or count > 100:
+                raise InvalidValue('The count value must be between 1 and 100')
+            count = count
         else:
-            new_nsfw = 'false'
+            count = 1
+        if not nsfw or nsfw is False:
+            nsfw = 'false'
+        else:
+            nsfw = 'true'
 
-        payload = {"nsfw": f"{new_nsfw}", "count": count}
+        payload = {"nsfw": f"{nsfw}", "count": count}
         r = requests.get(f'{self.URL_BASE_API}/random/image', params=payload)  # Making the request
-        json_img = json.loads(r.text)  # Creating the json
-        image_id = json_img["images"][0]["id"]  # Getting the image ID
-        json_img['images'][0]['url'] = f'https://nekos.moe/image/{image_id}'  # Implementing the image url
-        json_img['images'][0]['thumbnail'] = f'https://nekos.moe/thumbnail/{image_id}'  # Implementing the thumbnail url
-        return json_img
+        json_imgs = json.loads(r.text)  # Creating the json
+        for i in range(0, len(json_imgs["images"])):
+            image_id = json_imgs["images"][i]["id"]
+            json_imgs["images"][i]['url'] = f'https://nekos.moe/image/{image_id}'  # Implementing the image url
+            json_imgs["images"][i]['thumbnail'] = f'https://nekos.moe/thumbnail/{image_id}'  # Implementing the thumbna
+            # il url
+        return json_imgs
 
-    def search_image(self, image_id=None, nsfw=False, uploader=None, artist=None, tags=None, sort="newest",
-                     posted_before=None, posted_after=None, skip=0, limit=20):
+    def search_image(self, **kwargs):
         """
         Function that searches for images using specific filters.
-        :param image_id: `str` - optional (ID of the image)
-        :param nsfw: `bool` - optional (True/False - used to filter the results)
-        :param uploader: `str`  - optional (Filter results of a specific uploader)
-        :param artist: `str` - optional (Filter results of a specific artist)
-        :param tags: `list` - optional (Filter results by tags)
-        :param sort: `str` - optional - default `newest` - (newest, likes, oldest, relevance)
-        :param posted_before: `str` - optional (Separated by .  or : or -) Ex: 2020.09.02 YYYY/MM/DD
-        :param posted_after: `str` - optional (Separated by .  or : or -) Ex: 2020.09.02 YYYY/MM/DD
-        :param skip: `int` - optional - default `0` (Number of images to skip)
-        :param limit: `int` - optional - default `20` - max `50` (Ammount of images)
-        :return: a json with informations about the images that match the filters above
+        :return: a json with informations about the images that match the filters
         """
 
-        data = {"skip": skip, "limit": limit, "sort": sort}
+        image_id = kwargs.get('image_id')
+        nsfw = kwargs.get('nsfw')
+        uploader = kwargs.get('uploader')
+        artist = kwargs.get('artist')
+        tags = kwargs.get('tags')
+        sort = kwargs.get('sort')
+        posted_before = kwargs.get('posted_before')
+        posted_after = kwargs.get('posted_after')
+        skip = kwargs.get('skip')
+        limit = kwargs.get('limit')
 
-        if image_id is not None:
+        data = {}
+
+        if image_id:
             data["image_id"] = image_id
-        if nsfw is True:
+        if nsfw:
             data["nsfw"] = "true"
-        if nsfw is False:
+        else:
             data["nsfw"] = "false"
-        if uploader is not None:
+        if uploader:
             data["uploader"] = uploader
-        if artist is not None:
+        if artist:
             data["artist"] = artist
-        if tags is not None:
+        if tags:
             data["tags"] = tags
-        if posted_before is not None:
+        if sort:
+            data["sort"] = sort
+        if posted_before:
             data["posted_before"] = posted_before
-        if posted_after is not None:
+        if posted_after:
             data["posted_after"] = posted_after
+        if skip:
+            data["skip"] = skip
+        if limit:
+            if limit > 50:
+                raise InvalidValue('The limit value must be at most 50')
+            data["limit"] = limit
 
         headers = {'content-type': 'application/json'}
 
@@ -192,7 +219,8 @@ class Neko:
         """
         return f'{self.URL_BASE}/thumbnail/{image_id}'
 
-    def _send_image(self, filename, filepath, endpoint, data, headers):
+    @staticmethod
+    def _send_image(filename, filepath, endpoint, data, headers):
         """
         Function that make the post request to send the image and all informations to the website
         :return: a json with information/status of the post
@@ -204,28 +232,45 @@ class Neko:
         json_img_post = json.loads(r.text)
         return json_img_post
 
-    def upload_image(self, image, upload_type, tags=None, image_path=None, nsfw=False, artist=None):
+    def upload_image(self, **kwargs):
         """
         Function that select the type of image upload and send everything to the _send_image() function for uploading
-        :param image: `str` - required (name.extension/image link/Danbooru post ID)
-        :param upload_type: `str` - required (url/local/danbooru)
-        :param tags: `list` - required - except for danbooru posts - (Tags to be used)
-        :param image_path: `str` - optional - except for local posts (Path of the image)
-        :param nsfw: `bool` - optional (True/False) - Default False
-        :param artist: `str` - optional
         :return: return the return of _send_image() function
         """
         if self._verify_token() is True:
-            endpoint = f"{self.URL_BASE_API}/images"
-            data = {"tags": tags}
+            image = kwargs.get('image')
+            upload_type = kwargs.get('upload_type')
+            tags = kwargs.get('tags')
+            image_path = kwargs.get('image_path')
+            nsfw = kwargs.get('nsfw')
+            artist = kwargs.get('artist')
 
-            if artist is not None:
+            if not image:
+                raise MissingParameters(f'Required parameters don\'t given: <image>')
+            if not upload_type:
+                raise MissingParameters(f'Required parameters don\'t given: <upload_type>')
+            if not upload_type == 'danbooru':
+                if not tags:
+                    raise MissingParameters(f'Required parameters don\'t given: <tags>')
+            if upload_type == 'local':
+                if not image_path:
+                    raise MissingParameters(f'Required parameters don\'t given: <image_path>')
+
+            endpoint = f"{self.URL_BASE_API}/images"
+            data = {}
+
+            if artist:
                 data["artist"] = artist
             if nsfw is True:
-                data["nsfw"] = "true"
+                data["nsfw"] = 'true'
+            if not nsfw:
+                data["nsfw"] = 'false'
+            if tags:
+                data["tags"] = tags
 
             headers = {"Authorization": f'{self.token}'}
 
+            # Upload image by URL
             if upload_type == 'url':
                 img = requests.get(image)
 
@@ -238,9 +283,9 @@ class Neko:
                 a = self._send_image(filename, filepath, endpoint, data, headers)
                 os.remove('image.jpg')
                 return a
-            elif upload_type == 'local':
+            elif upload_type == 'local':  # Local upload
                 return self._send_image(image, image_path, endpoint, data, headers)
-            elif upload_type == 'danbooru':
+            elif upload_type == 'danbooru':  # Danbooru upload
                 r = requests.get(f'https://danbooru.donmai.us/posts/{image}')
                 soup = BeautifulSoup(r.content, 'html.parser')
                 artist = soup.find('li', {'class': 'tag-type-1'}).get('data-tag-name')
@@ -265,7 +310,7 @@ class Neko:
                 os.remove('image.jpg')
                 return a
             else:
-                raise TypeError('Type unrecognized.')
+                raise TypoError('Type unrecognized.')
         else:
             raise TokenError('No token provided.')
 
@@ -281,17 +326,25 @@ class Neko:
         json_user = json.loads(r.content)
         return json_user
 
-    def search_user(self, query=None, skip=0, limit=20):
+    # def search_user(self, query=None, skip=0, limit=20):
+    def search_user(self, **kwargs):
         """
         Function that search for users using some filters
-        :param query: `str` - optional - default: None
-        :param skip: `str` - optional - default: 0
-        :param limit: `str` - optional - default: 20
         :return: json with informations about searched users
         """
-        payload = {"limit": limit, "skip": skip}
+        query = kwargs.get('query')
+        skip = kwargs.get('skip')
+        limit = kwargs.get('limit')
 
-        if query is not None:
+        payload = {}
+
+        if limit:
+            if limit < 1 or limit > 100:
+                raise InvalidValue('The limit value must be between 1 and 100')
+            payload["limit"] = limit
+        if skip:
+            payload["skip"] = skip
+        if query:
             payload["query"] = query
 
         headers = {'content-type': 'application/json'}
