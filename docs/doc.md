@@ -54,23 +54,27 @@ print(json_image)
 
 
 ## Get random images
-Using the **random_image(nsfw, count)** function:
+Using the **random_image(\*\*kwargs)** function:
 
-- The **nsfw** parameter is type `bool` and set to True or False. Default *False* - Optional.
+- The **nsfw** parameter is type `bool`. Default *False* - Optional.
 
 - The **count** parameter is type `int` and is the amount of images to return. Default *1* - Max *100* - Optional.
 ```python
-nsfw_images_json = nyan.random_image(nsfw=True,  count=2)
-print(nsfw_images_json)
+safe_kw = {
+    'nsfw': False,
+    'count': 2
+}
+sfw_images_json = nyan.random_image(**safe_kw)
+print(sfw_images_json)
 ```
 
 
 ## Search for images
-Using the **search_image(image_id,  nsfw,  uploader,  artist,  tags,  sort, posted_before,  posted_after,  skip,  limit)** function:
+Using the **search_image(\*\*kwargs)** function:
 
 - The **image_id** parameter is type `string` and is the ID of the image. Default *None*  - Optional.
 
-- The **nsfw** parameter is type `bool` and set to True or False. Default *False* - Optional.
+- The **nsfw** parameter is type `bool`. Default *False* - Optional.
 
 - The **uploader** parameter is type `string` and is the name of the uploader. Default *None*  - Optional.
 
@@ -80,14 +84,22 @@ Using the **search_image(image_id,  nsfw,  uploader,  artist,  tags,  sort, post
 
 - The **sort** parameter is type `string` and is the method to sort. Avaible: *newest, likes, oldest, relevance*. Default *newest*  - Optional.
 
-- The **posted_before** and **posted_after** parameters are type `string` and contain the date separated by **-** or **.** or **:** Default *None* - Optional - Ex: 2020.09.02 YYYY/MM/DD
+- The **posted_before** and **posted_after** parameters are type `string` and contain the date separated by **.** Default *None* - Optional - Ex: 2020.09.02 YYYY/MM/DD
 
 - The **skip** parameter is type `int` and is the amount of posts to skip. Default *0*  - Optional.
 
 - The **limit** parameter is type `int` and is the amount of posts to return. Default *20*  - Max *50* - Optional.
 ```python
-search_json = nyan.search_image(nsfw=False,  uploader='brussell',  artist='jun',  tags=["1 girl",  "animal ears"],  sort='likes')
-print(search_json)
+search_kw = {
+    'nsfw': False,
+    'uploader': 'brussell',
+    'tags': ['1 girl', 'animal ears'],
+    'sort': 'likes',
+    'posted_before': '2018.05.02',  # YYYY/MM/DD
+    'limit': 10
+}
+json_search = nyan.search_image(**search_kw)
+print(json_search)
 ```
 
 
@@ -108,7 +120,7 @@ print(thumb_link)
 
 
 ## Upload image
-Using the **upload_image(image, upload_type, tags, image_path, nsfw, artist)** function. The function can upload images from local path, from a url or from a danbooru post. Just need to select the correct one by the **upload_type** parameter:
+Using the **upload_image(\*\*kwargs)** function. The function can upload images from local path, from a url or from a danbooru post. Just need to select the correct one by the **upload_type** parameter:
 
 - The **image** parameter is type `string`. For **danbooru**, should be the ID of the post. For **local**, should be the image_name.extension (image.jpg/jpeg/png). For **url**, should be the url for the image (needs to be public, can't be necessary authentication) - Required.
 
@@ -118,20 +130,38 @@ Using the **upload_image(image, upload_type, tags, image_path, nsfw, artist)** f
 
 - The **image_path** parameter is type `string` and is the path of the image. Required only for **local** posts.
 
-- The **nsfw** parameter is type `bool` and set to True or False. Default *False* - Optional.
+- The **nsfw** parameter is type `bool`. Default *False* - Optional.
 
 - The **artist** parameter is type `string` and is the author of the image - Optional - Don't required for **danbooru** posts.
 ```python
 # Danbooru post
-danbooru = nyan.upload_image(image='2613483', image_type='danbooru')
+dan_kw = {
+    'image': '2613483',
+    'upload_type': 'danbooru',
+    'nsfw': False
+}
+danbooru = nyan.upload_image(**dan_kw)
 print(danbooru)
 
 # Local post
-local = nyan.upload_image(image='neko.jpg', image_path='/home/user/path/to/image/neko.jpg', image_type='local', tags=['student'])
+local_kw = {
+    'image': 'neko.jpg',
+    'image_path': '/home/user/path/to/image/neko.jpg',
+    'upload_type': 'local',
+    'tags': ['student'],
+    'nsfw': False
+}
+local = nyan.upload_image(**local_kw)
 print(local)
 
 # Url post
-url = nyan.upload_image(image='https://ih1.redbubble.net/image.608339956.2125/flat,750x,075,f-pad,750x1000,f8f8f8.jpg', image_type='url', tags=['animal ear', 'test'])
+url_kw = {
+    'image': 'https://ih1.redbubble.net/image.608339956.2125/flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
+    'upload_type': 'url',
+    'tags': ['animal ear', 'test'],
+    'nsfw': False
+}
+url = nyan.upload_image(**url_kw)
 print(url)
 ```
 
@@ -145,7 +175,7 @@ print(user)
 
 
 ## Search for users
-Using the **search_user(query, skip, limit)** function:
+Using the **search_user(\*\*kwargs)** function:
 
 - The **query** parameter is type `string` and is the name for search. Default *None* - Optional.
 
@@ -153,7 +183,10 @@ Using the **search_user(query, skip, limit)** function:
 
 - The **limit** parameter is type `int` and is the amount of users to return. Default *20* - Max *100* - Optional.
 ```python
-users = nyan.search_user(limit=2)
+search_kw = {
+    'limit': 2
+}
+users = nyan.search_user(**search_kw)
 print(users)
 ```
 
