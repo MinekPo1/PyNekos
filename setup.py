@@ -81,7 +81,7 @@ request.
 setup(
   name = 'PyNekos',
   packages = ['PyNekos'],
-  version = '1.02',
+  version = '1.30',
   license='MIT',
   description = 'Python client for the https://nekos.moe/ API',
   long_description=long_description,
@@ -89,7 +89,7 @@ setup(
   author = 'Pedro Huang',
   author_email = 'justhuangpedro@gmail.com',
   url = 'https://github.com/ChoiYun/PyNekos',
-  download_url = 'https://github.com/ChoiYun/PyNekos/archive/v1.1.tar.gz',
+  download_url = 'https://github.com/ChoiYun/PyNekos/archive/v1.3.tar.gz',
   keywords = ['Nekos.moe', 'Neko', 'Nekos API'],
   install_requires=[            
           'requests',
