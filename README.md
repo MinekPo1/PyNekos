@@ -44,6 +44,17 @@ nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", passwor
 ## Examples
 You can see the usage of all endpoints of the API in the [example files](https://github.com/ChoiYun/PyNekos/tree/main/examples).
 
+## Changelog
+- Version 1.3:
+
+>Implemented **kwargs in some methods for packing and unpacking
+>
+>Fixed some logic problems
+>
+>Implemented better exceptions
+>
+>Method "random_images" now have url of the image and url of the thumbnail in all entries of the json (before only had on the first entrie)
+
 
 ## Contributing
 Please contribute! If you want to fix a bug, suggest improvements, or add new features to the project, just [open an issue](https://github.com/ChoiYun/PyNekos/issues) or send a pull request.
