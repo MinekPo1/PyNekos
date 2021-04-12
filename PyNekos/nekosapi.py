@@ -385,6 +385,8 @@ class User:
             return self._data[name]
         else:
             super().__getattribute__(name)
+    def __repr__(self):
+        return(f"<nekos.moe user {self.id}>")
 
     @classmethod
     def _from_json(cls,json: dict):
@@ -429,6 +431,8 @@ class Post:
             return self._data[name]
         else:
             super().__getattribute__(name)
+    def __repr__(self):
+        return(f"<nekos.moe image {self.id}>")
 
     @classmethod
     def _from_json(cls,json: dict):
@@ -452,6 +456,6 @@ class Post:
         return out
 
     @classmethod
-    def random(cls,*,nsfw: bool = None):
-        r = requests.get("https://nekos.moe/api/v1/random/image")
-        return cls._from_json(r.json())
+    def random(cls,*,nsfw: bool = None,count: int = 1):
+        r = requests.get("https://nekos.moe/api/v1/random/image",data = {'nsfw':str(nsfw).lower,'count':count})
+        return [cls._from_json(image) for image in r.json()['images']]
