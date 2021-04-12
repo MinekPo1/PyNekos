@@ -1,3 +1,5 @@
+from io import BytesIO, FileIO
+from typing import Any, Literal, Optional, Union, overload
 import requests
 import json
 import os
@@ -91,7 +93,7 @@ class Neko:
         Function that regenerates the token and return the new token if credentials was provided.
         :return: the new token if credentials was provided
         """
-        if self._verify_token() is True:
+        if self.token == True:
             print('Regenerating token...')
             headers = {"Authorization": f"{self.token}"}
             r = requests.post(f'{self.URL_BASE_API}/auth/regen', headers=headers)
@@ -107,9 +109,11 @@ class Neko:
     def get_image(self, image_id):
         """
         Function that return a json with information about the image with the given ID.
+        ! use Image instead of this
         :param image_id: `str` - required (ID of the image)
         :return: a json with informations about the image matching the given ID.
         """
+        raise FutureWarning("This function will be removed in the future. Use 'Post()' instead.")
         r = requests.get(f'{self.URL_BASE_API}/images/{image_id}')  # Making the request
         if r.status_code == 404:
             raise ImageError('Image not found')
@@ -121,8 +125,10 @@ class Neko:
     def random_image(self, **kwargs):
         """
         Function that returns a json with information about random images
+        ! Use Post.random() instead of this
         :return: a json with information about the random images
         """
+        raise FutureWarning("This function will be removed in the future. Use 'Post.random()' instead.")
 
         nsfw = kwargs.get('nsfw')
         count = kwargs.get('count')
@@ -148,49 +154,45 @@ class Neko:
             # il url
         return json_imgs
 
-    def search_image(self, **kwargs):
+    @overload
+    def search_image(self) -> dict:...
+    @overload
+    def search_image(self,*, image_id:int = None, nsfw: bool = None, uploader:str = None, artist:str = None,
+        tags:list[str] = None, sort:Literal['newest','likes','oldest','relevance'] = None,posted_before:int = None,
+        posted_after:int = None, skip:int = None, limit:int = None) -> dict: ...
+    def search_image(self, **kwargs) -> dict:
         """
         Function that searches for images using specific filters.
-        :return: a json with informations about the images that match the filters
+        ! use Post.search() instead of this.
+        :returns: a json with informations about the images that match the filters
         """
 
-        image_id = kwargs.get('image_id')
-        nsfw = kwargs.get('nsfw')
-        uploader = kwargs.get('uploader')
-        artist = kwargs.get('artist')
-        tags = kwargs.get('tags')
-        sort = kwargs.get('sort')
-        posted_before = kwargs.get('posted_before')
-        posted_after = kwargs.get('posted_after')
-        skip = kwargs.get('skip')
-        limit = kwargs.get('limit')
+        raise FutureWarning("This function will be removed in the future. Use 'Post.search()' instead.")
 
-        data = {}
+        accepted_keys = {
+            'image_id',
+            'nsfw',
+            'uploader',
+            'artist',
+            'tags',
+            'sort',
+            'posted_before',
+            'posted_after',
+            'skip',
+            'limit'
+        }
 
-        if image_id:
-            data["image_id"] = image_id
-        if nsfw:
-            data["nsfw"] = "true"
-        else:
-            data["nsfw"] = "false"
-        if uploader:
-            data["uploader"] = uploader
-        if artist:
-            data["artist"] = artist
-        if tags:
-            data["tags"] = tags
-        if sort:
-            data["sort"] = sort
-        if posted_before:
-            data["posted_before"] = posted_before
-        if posted_after:
-            data["posted_after"] = posted_after
-        if skip:
-            data["skip"] = skip
-        if limit:
-            if limit > 50:
+        data = kwargs
+
+        for i in set(kwargs.keys()) - accepted_keys:
+            data.pop(i)
+
+        #refine the data
+        if 'nsfw' in data:
+            data["nsfw"] = str(data['nsfw']).lower()
+        if 'limit' in data:
+            if data['limit'] > 50:
                 raise InvalidValue('The limit value must be at most 50')
-            data["limit"] = limit
 
         headers = {'content-type': 'application/json'}
 
@@ -237,7 +239,7 @@ class Neko:
         Function that select the type of image upload and send everything to the _send_image() function for uploading
         :return: return the return of _send_image() function
         """
-        if self._verify_token() is True:
+        if self.token != None:
             image = kwargs.get('image')
             upload_type = kwargs.get('upload_type')
             tags = kwargs.get('tags')
@@ -317,9 +319,11 @@ class Neko:
     def get_user(self, user_id):
         """
         Function that returns a json with informations about the user with given ID
+        ! Use User instead of this.
         :param user_id: `str` - required
         :return: a json with informations about the user with given ID
         """
+        raise FutureWarning("This function will be removed in the future. Use 'User' instead.")
         r = requests.get(f'{self.URL_BASE_API}/user/{user_id}')
         if r.status_code == 404:
             raise UserError('No user with that id.')
@@ -330,8 +334,10 @@ class Neko:
     def search_user(self, **kwargs):
         """
         Function that search for users using some filters
+        ! Use User.search instead of this.
         :return: json with informations about searched users
         """
+        raise FutureWarning("This function will be removed in the future. Use 'User.search' instead.")
         query = kwargs.get('query')
         skip = kwargs.get('skip')
         limit = kwargs.get('limit')
@@ -352,3 +358,100 @@ class Neko:
         r = requests.post(f'{self.URL_BASE_API}/users/search', data=json.dumps(payload), headers=headers)
         json_user = json.loads(r.content)
         return json_user
+
+class User:
+    """
+    Object represending a user account on nekos.moe.
+    TODO: Extend doc string.
+    """
+    roles:list[str]
+    uploads:int
+    likes:list[str]
+    favorites:list[str]
+    likesReceived:int
+    favoritesReceived:int
+    id:str
+    username:str
+    createdAt:str
+
+    def __init__(self,id:str,update = True) -> None:
+        self.id = id
+        if update:self.update()
+    def update(self):
+        r = requests.get('https://nekos.moe/api/v1/user/'+self.id)
+        self._data = r.json()
+    def __getattr__(self, name: str) -> Any:
+        if name in self._data:
+            return self._data[name]
+        else:
+            super().__getattribute__(name)
+
+    @classmethod
+    def _from_json(cls,json: dict):
+        out = cls(json['id'])
+        out._data = json
+        return out
+
+    @classmethod
+    def search(cls,*,query: str = "",skip:int = 0,limit:int = 20) -> list:
+        r = requests.post("https://nekos.moe/api/v1/users/search",data = {"query":query,"skip":int,"limit":limit})
+        users = r.json()['users']
+        return [cls._from_json(user) for user in users]
+
+class Post:
+    """
+    Object representing a post on nekos.moe.
+    TODO: Extend doc string.
+    """
+    tags: list[str]
+    nsfw: bool
+    likes: int
+    favorites: int
+    id: str
+    uploader: User
+
+    def __init__(self,id,update = True):
+        self.id = id
+        self._data: Optional[dict] = None
+        if update:
+            self.update()
+    def update(self):
+        r = requests.get('https://nekos.moe/api/v1/images/self.id')
+        self._data = r.json()
+    def get_image(self) -> BytesIO:
+        r = requests.get('https://nekos.moe/image/'+self.id)
+        return BytesIO(r.content)
+    def get_thumbnail(self):
+        r = requests.get('https://nekos.moe/thumbnail/'+self.id)
+        return BytesIO(r.content)
+    def __getattr__(self, name: str) -> Any:
+        if self._data != None and name in self._data:
+            return self._data[name]
+        else:
+            super().__getattribute__(name)
+
+    @classmethod
+    def _from_json(cls,json: dict):
+        out = cls(json['id'])
+        out._data = json
+        return out
+
+    @overload
+    @classmethod
+    def search(cls,*, id:int = None, nsfw: bool = None, uploader:str = None, artist:str = None,
+        tags:list[str] = None, sort:Literal['newest','likes','oldest','relevance'] = None,posted_before:int = None,
+        posted_after:int = None, skip:int = None, limit:int = None) -> list:...
+    @overload
+    @classmethod
+    def search(cls) -> list:...
+    @classmethod
+    def search(cls,**kwargs):
+        r = requests.post("https://nekos.moe/api/v1/images/search",)
+        posts = r.json()['images']
+        out = [cls._from_json(post) for post in posts]
+        return out
+
+    @classmethod
+    def random(cls,*,nsfw: bool = None):
+        r = requests.get("https://nekos.moe/api/v1/random/image")
+        return cls._from_json(r.json())
