@@ -8,8 +8,8 @@ Some functionalities of the API needs authentication, used for post images and r
 ## Usage
 Import the package and initiate the Neko class:
 ```python
-from PyNekos.nekosapi import Neko
-nyan = Neko(token, username, password) # Credentials and token required only for some functionalities
+from PyNekos import nekosapi
+nyan = nekosapi.Neko(token, username, password) # Credentials and token required only for some functionalities
 ```
 
 The **Neko** class can receive three parameters: **token**, **username** and **password**.
@@ -34,7 +34,6 @@ from PyNekos.nekosapi import Neko
 nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
 ```
 
-
 ## Regenerate token
 If you instance a object providing *token*, *username* and *password*, the **regen_token()** function will return the new token. Otherwise, if you only provide the *token*, the new token will not be returned, so you'll need to use the **get_token()** function again.
 ```python
@@ -46,6 +45,7 @@ print(new_token)
 
 
 ## Get image informations
+
 Using the **get_image(image_id)** function providing the ID of the image:
 ```python
 json_image = nyan.get_image('Sy9sHFa8X')
