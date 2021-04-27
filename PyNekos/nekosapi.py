@@ -147,7 +147,7 @@ class Neko:
         else:
             raise CredentialsError('No credentials provided.')
 
-    def regen_token(self):
+    def regen_token(self,get_token = True) -> None:
         """
         Function that regenerates the token and return the new token if credentials was provided.
         :return: the new token if credentials was provided
@@ -158,10 +158,10 @@ class Neko:
             r = requests.post(f'{self.URL_BASE_API}/auth/regen', headers=headers)
             if r.status_code == 401:
                 raise CredentialsError('Invalid token.')
-            print('Token regenerated!')
-
+            if not(get_token): return
             if self.username and self.password:
-                return self.get_token()
+                self.token = self.get_token()
+            else: raise CredentialsError("username and password are reqired to get token")
         else:
             raise CredentialsError('No token provided.')
 
