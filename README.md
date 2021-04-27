@@ -1,60 +1,41 @@
-# PyNekos: a Python client for the Nekos.moe API 
-`PyNekos` provides a simple and pythonic way to use the [Nekos.moe API](https://docs.nekos.moe/).
+# PyNekosOO: a Python wrapper for the Nekos.moe API
 
-The full documentation for `PyNekos` can be found [here](https://github.com/ChoiYun/PyNekos/blob/main/docs/doc.md).
+`PyNekosOO` provides a simple and pythonic way to use the [Nekos.moe API](https://docs.nekos.moe/). Fork of [ChoiYun's wrapper](https://github.com/ChoiYun/PyNekos) focused on allowing the user not to work with raw json data.
+
+The full documentation for `PyNekosOO` can be found [here](https://github.com/MinekPo1/PyNekos/blob/main/docs/doc.md).
 
 ## Setup
-Some functionalities of the API needs authentication, used for post images and regenerate and get token. This way, if you pretend to use this functionalities, you'll need to [sign up](https://nekos.moe/register)  for a (free) account that authorizes access to the [Nekos.moe API](https://docs.nekos.moe/).  If you pretend to use only the simple functionalities (like get images informations, user informations, search for images, etc), you don't need to pass nothing to the **Neko** class, see [usage](https://github.com/ChoiYun/PyNekos#usage) section below.
 
+Some functionalities of the API require authentication, for example posting images, regenerating the token adding likes and favorites. If you want to use these functionalities you have to have an account. Create one [here](https://nekos.moe/register). Note that this is optional as you can use most of the wrapper with out an account.
 
+<!--
 ## Installation
-`PyNekos` requires Python 3.
+
+`PyNekosOO` requires Python 3.8 or above.
 
 Use `pip` to install the package from PyPI:
 
 ```bash
-pip install PyNekos
+pip install PyNekosOO
 ```
+-->
 
+## Authorisation
 
-## Usage
-Import the package and initiate the Neko class:
+If you want to use to use functionalities of the API requiring authorisation, you'll need the token. To get the token, you'll need your credentials:
 
 ```python
-from PyNekos.nekosapi import Neko
-nyan = Neko()
-```
-
-If you pretend to use more advanced functionalities of the API, you'll need the token. To get the token, you'll need your credentials: 
-
-```python
-from PyNekos.nekosapi import Neko
+from PyNekosOO import *
 nyan = Neko(username='myuser', password='iwillnotshowyouthis')
-token = nyan.get_token()
-print(token)
+nyan.get_token()
 ```
 
-After that, instance the object again with all informations:
-
-```python
-from PyNekos.nekosapi import Neko
-nyan = Neko(token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", username="myuser", password="iwillnotshowyouthis")
-```
+Afterwards the `Neko` instance is authorised.
 
 ## Examples
-You can see the usage of all endpoints of the API in the [example files](https://github.com/ChoiYun/PyNekos/tree/main/examples).
 
-## Changelog
-- Version 1.3:
-
->Implemented **kwargs in some methods for packing and unpacking
->
->Fixed some logic problems
->
->Implemented better exceptions
->
->Method "random_images" now have url of the image and url of the thumbnail in all entries of the json (before only had on the first entrie)
-
+You can see the usage of all endpoints of the API in the [example files](https://github.com/MinekPo1/PyNekos/tree/main/examples).
 
 ## Contributing
-Please contribute! If you want to fix a bug, suggest improvements, or add new features to the project, just [open an issue](https://github.com/ChoiYun/PyNekos/issues) or send a pull request.
+
+Please contribute! If you want to fix a bug, suggest improvements, or add new features to the project, just [open an issue](https://github.com/MinekPo1/PyNekos/issues) or fork the project.

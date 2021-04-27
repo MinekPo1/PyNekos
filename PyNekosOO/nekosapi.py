@@ -179,8 +179,6 @@ class Neko:
 
     def upload_image(self, **kwargs):
         """
-        Function that select the type of image upload and send everything to the _send_image() function for uploading
-        :return: return the return of _send_image() function
         """
         if self.token == None:
             raise ValueError("Token not provided.")

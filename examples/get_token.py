@@ -2,7 +2,7 @@
 File that exemplify the use of the client to get the token of the Nekos.moe API
 """
 
-from PyNekos.nekosapi import Neko
+from PyNekosOO import *
 
 nyan = Neko(username='MyUser', password='iwillnotshowyouthis')
 token = nyan.get_token()
