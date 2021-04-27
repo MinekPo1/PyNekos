@@ -1,1 +1,1 @@
-from PyNekos.nekosapi import Neko,User,Post,CredentialsError
+from PyNekosOO.nekosapi import Neko,User,Post,CredentialsError
